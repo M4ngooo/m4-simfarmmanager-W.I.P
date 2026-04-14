@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Farming Simulator 25 - Save + Workplan</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <div class="farm-name">Gospodarstwo Solec</div>
+
+      <section class="card farm-switcher">
+        <div class="farm-switcher-row">
+          <div class="farm-switcher-main">
+            <label for="farmSelect" class="muted"
+              ><i class="fa-solid fa-house"></i> Aktywne gospodarstwo</label
+            >
+            <select id="farmSelect"></select>
+          </div>
+          <button id="addFarmBtn" type="button" class="btn btn-normal">
+            <i class="fa-solid fa-plus"></i> Dodaj gospodarstwo
+          </button>
+        </div>
+      </section>
+
+      <header class="card card-hero">
+        <h1><i class="fa-solid fa-tractor"></i> Farming Simulator 25</h1>
+        <p class="muted">
+          <i class="fa-solid fa-seedling"></i> Aktualny Save (ZIP).
+        </p>
+        <div class="table-wrap hero-settings-wrap">
+          <table id="saveSettingsTable">
+            <thead>
+              <tr>
+                <th><i class="fa-solid fa-calendar-days"></i> Dni w miesiącu (gra)</th>
+                <th><i class="fa-solid fa-gauge-high"></i> Poziom trudności</th>
+                <th><i class="fa-solid fa-calendar-plus"></i> Data założenia save</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input id="topDaysPerMonthInput" type="number" min="1" max="30" /></td>
+                <td>
+                  <select id="saveDifficultySelect">
+                    <option value="Latwy">Łatwy</option>
+                    <option value="Normalny">Normalny</option>
+                    <option value="Trudny">Trudny</option>
+                  </select>
+                </td>
+                <td><input id="saveStartDateInput" type="date" /></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="quick-links">
+          <a href="#saveSection" class="quick-link"><i class="fa-solid fa-floppy-disk"></i> Save</a>
+          <a href="#workplanSection" class="quick-link"><i class="fa-solid fa-list-check"></i> Workplan</a>
+          <a href="#purchaseSection" class="quick-link"><i class="fa-solid fa-cart-shopping"></i> Zakupy</a>
+          <a href="#financeSection" class="quick-link"><i class="fa-solid fa-chart-column"></i> Finanse</a>
+          <a href="#notesCalcSection" class="quick-link"><i class="fa-solid fa-pen-to-square"></i> Notatnik i kalkulator</a>
+        </div>
+      </header>
+
+      <section id="saveSection" class="card">
+        <h2><i class="fa-solid fa-floppy-disk"></i> Save gry</h2>
+        <div class="upload-row">
+          <input
+            id="saveZipInput"
+            class="file-input-hidden"
+            type="file"
+            accept=".zip,application/zip"
+          />
+          <button id="chooseFileBtn" type="button" class="btn btn-normal choose-file-btn">
+            <i class="fa-solid fa-file-arrow-up"></i> Wybierz plik ZIP
+          </button>
+          <span id="selectedFileName" class="selected-file-name"
+            >Nie wybrano pliku</span
+          >
+          <button id="clearAllSavesBtn" type="button" class="btn btn-normal secondary">
+            <i class="fa-solid fa-trash-can"></i> Wyczyść wszystkie
+          </button>
+        </div>
+        <p id="zipStatus" class="muted">
+          <i class="fa-solid fa-circle-info"></i> Nie dodano jeszcze zadnego save ZIP.
+        </p>
+        <div id="saveList" class="save-list"></div>
+      </section>
+
+      <section id="workplanSection" class="card">
+        <div class="table-header">
+          <h2><i class="fa-solid fa-list-check"></i> Workplan pól</h2>
+          <button id="addRowBtn" type="button" class="btn btn-normal">
+            <i class="fa-solid fa-plus"></i> Dodaj wpis
+          </button>
+        </div>
+        <div class="table-wrap">
+          <table id="planTable">
+            <thead>
+              <tr>
+                <th><i class="fa-solid fa-hashtag"></i> Numer pola</th>
+                <th><i class="fa-solid fa-wheat-awn"></i> Co zasiane</th>
+                <th><i class="fa-solid fa-clipboard-check"></i> Stan / plan</th>
+                <th><i class="fa-solid fa-gears"></i> Akcja</th>
+              </tr>
+            </thead>
+            <tbody id="planTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="purchaseSection" class="card">
+        <div class="table-header">
+          <h2><i class="fa-solid fa-cart-shopping"></i> Plan zakupów</h2>
+          <button id="addPurchaseBtn" type="button" class="btn btn-normal">
+            <i class="fa-solid fa-plus"></i> Dodaj zakup
+          </button>
+        </div>
+        <div class="table-wrap">
+          <table id="purchaseTable">
+            <thead>
+              <tr>
+                <th><i class="fa-solid fa-basket-shopping"></i> Co kupić</th>
+                <th><i class="fa-solid fa-tag"></i> Cena</th>
+                <th><i class="fa-solid fa-hourglass-half"></i> Stan</th>
+                <th><i class="fa-solid fa-gears"></i> Akcja</th>
+              </tr>
+            </thead>
+            <tbody id="purchaseTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="financeSection" class="card">
+        <div class="table-header">
+          <h2><i class="fa-solid fa-chart-column"></i> Finanse sezonu</h2>
+        </div>
+
+        <div class="finance-controls">
+          <label for="daysPerMonthInput" class="muted">
+            <i class="fa-solid fa-calendar-days"></i> Dni w miesiącu
+          </label>
+          <input id="daysPerMonthInput" type="number" min="1" max="30" value="3" />
+          <button id="refreshFinanceBtn" type="button" class="btn btn-compact secondary">
+            <i class="fa-solid fa-rotate-right"></i> Odśwież
+          </button>
+          <button id="clearFinanceBtn" type="button" class="btn btn-compact secondary">
+            <i class="fa-solid fa-trash"></i> Usuń wszystkie
+          </button>
+        </div>
+
+        <div class="table-wrap">
+          <table id="financeTable">
+            <thead>
+              <tr>
+                <th><i class="fa-solid fa-calendar"></i> Miesiąc</th>
+                <th><i class="fa-solid fa-sack-dollar"></i> Zarobek</th>
+                <th><i class="fa-solid fa-wallet"></i> Wydatki</th>
+                <th><i class="fa-solid fa-scale-balanced"></i> Zysk</th>
+              </tr>
+            </thead>
+            <tbody id="financeTableBody"></tbody>
+          </table>
+        </div>
+
+        <p id="financeSummary" class="muted"></p>
+        <canvas id="seasonChart" width="920" height="300"></canvas>
+      </section>
+
+      <section id="notesCalcSection" class="card">
+        <div class="table-header">
+          <h2><i class="fa-solid fa-pen-to-square"></i> Notatnik i Kalkulator</h2>
+        </div>
+        <div class="tools-split">
+          <div class="tool-panel">
+            <h3><i class="fa-solid fa-book"></i> Notatnik</h3>
+            <textarea
+              id="farmNotebookInput"
+              class="notebook-input"
+              placeholder="Wpisz notatki do gospodarstwa..."
+            ></textarea>
+          </div>
+
+          <div class="tool-panel">
+            <h3><i class="fa-solid fa-calculator"></i> Kalkulator</h3>
+            <div class="calc-shell">
+              <div id="calcDisplay" class="calc-display">0</div>
+              <div class="calc-grid">
+                <button type="button" class="calc-btn calc-btn-fn" data-calc-action="clear">AC</button>
+                <button type="button" class="calc-btn calc-btn-fn" data-calc-action="plusminus">+/-</button>
+                <button type="button" class="calc-btn calc-btn-fn" data-calc-action="percent">%</button>
+                <button type="button" class="calc-btn calc-btn-op" data-calc-op="/">÷</button>
+
+                <button type="button" class="calc-btn" data-calc-digit="7">7</button>
+                <button type="button" class="calc-btn" data-calc-digit="8">8</button>
+                <button type="button" class="calc-btn" data-calc-digit="9">9</button>
+                <button type="button" class="calc-btn calc-btn-op" data-calc-op="*">×</button>
+
+                <button type="button" class="calc-btn" data-calc-digit="4">4</button>
+                <button type="button" class="calc-btn" data-calc-digit="5">5</button>
+                <button type="button" class="calc-btn" data-calc-digit="6">6</button>
+                <button type="button" class="calc-btn calc-btn-op" data-calc-op="-">−</button>
+
+                <button type="button" class="calc-btn" data-calc-digit="1">1</button>
+                <button type="button" class="calc-btn" data-calc-digit="2">2</button>
+                <button type="button" class="calc-btn" data-calc-digit="3">3</button>
+                <button type="button" class="calc-btn calc-btn-op" data-calc-op="+">+</button>
+
+                <button type="button" class="calc-btn calc-btn-zero" data-calc-digit="0">0</button>
+                <button type="button" class="calc-btn" data-calc-action="dot">.</button>
+                <button type="button" class="calc-btn calc-btn-op" data-calc-action="equals">=</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer-note">© 2026 SIMFarmManager • By M4ngo</footer>
+    </main>
+
+    <div id="farmModal" class="farm-modal hidden">
+      <div class="farm-modal-box">
+        <h3><i class="fa-solid fa-house-circle-check"></i> Nowe gospodarstwo</h3>
+        <p class="muted">Podaj nazwę nowego gospodarstwa</p>
+        <input id="farmNameInput" type="text" placeholder="Np. Gospodarstwo Brzoza" />
+        <div class="farm-modal-actions">
+          <button id="farmModalCancelBtn" type="button" class="btn btn-normal secondary">
+            <i class="fa-solid fa-xmark"></i> Anuluj
+          </button>
+          <button id="farmModalSaveBtn" type="button" class="btn btn-normal">
+            <i class="fa-solid fa-check"></i> Dodaj
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
